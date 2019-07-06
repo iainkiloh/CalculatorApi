@@ -10,27 +10,43 @@ using System.Threading.Tasks;
 
 namespace CalculatorApi.Controllers
 {
+    /// <summary>
+    /// class scoped Attributes to ensure any unhandled exceptions are caught by our exception filter
+    /// declare version number and base route for controller class
+    /// </summary>
     [UnhandledExceptionFilter]
-    [ApiController]
+    [ApiController] //required for SwaggerUI
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/calculate")]
     public class CalculateController : ControllerBase
     {
-        private ICalculator _calculator;
+        private readonly ICalculator _calculator;
+
+        /// <summary>
+        /// constructor with ICalculator implementation injection
+        /// </summary>
+        /// <param name="calcuator"></param>
         public CalculateController(ICalculator calcuator)
         {
             _calculator = calcuator;
         }
 
-       
+         /// <summary>
+         /// Route which accepts list of delimited Integers, the delimiter, and the Mathematical operation
+         /// to be performed
+         /// </summary>
+         /// <param name="numbers"></param>
+         /// <param name="delimiter"></param>
+         /// <param name="calcType"></param>
+         /// <returns></returns> 
         [HttpGet]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet]
         [HttpHead]
-        public async Task<IActionResult> Get([FromQuery]string numbers, char delimiter, CalculationType calcType) // Get([FromQuery] string number, char delimiter, CalculationType calcType)
+        public async Task<IActionResult> Get([FromQuery]string numbers, char delimiter, CalculationType calcType)
         {
-            
+            //declare list of ints which we will use as input for the ICalculator's 'Calculate' method
             List<int> numbersList;
             //convert to list of int32 - throw BadRequest error if conversion fails
             try
@@ -38,8 +54,7 @@ namespace CalculatorApi.Controllers
                 numbersList = numbers.Split(delimiter).Select(Int32.Parse).ToList();
             }
             catch
-            {
-                //valid but not 
+            {   //unable to parse the numbers input - throw BadRequest 400 error
                 return BadRequest("Unable to proces the request, ensure you supply a list of delimited numbers, and the correct delimiter");
             }
 
@@ -66,13 +81,16 @@ namespace CalculatorApi.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Available actions on this controller
+        /// </summary>
+        /// <returns></returns>
         [HttpOptions]
         public IActionResult GetOptions()
         {
             Response.Headers.Add("Allow", "GET, HEAD, OPTIONS");
             return Ok();
         }
-
 
     }
 }

@@ -1,6 +1,8 @@
-# JwtServer
-.NET Core Json Web Token server with OpenId
+# CalculatorApi
+.NET Core basic Int32 calculator for Add/Multply.Subtract operations
 
-The server accepts grant_types: password, refresh_token, and client_credentials
+Contains 1 GET route for all operations
 
-The app used LLBLGen generated code to interacct with a PostgrSQL db.
+Includes Postman collection and encironment for executing test cases against the development configuration
+
+Includes docker build file and kubernetes deployment file

@@ -1,0 +1,368 @@
+{
+	"info": {
+		"_postman_id": "dd8a13f0-4ff1-45ff-889a-3951f737fc84",
+		"name": "CalculatorApiCalls",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1_GetAdd",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a2ae537c-6cc5-4c5c-8cc1-cfd4f340a0bd",
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"successful GET request\"] = responseCode.code === 200\r",
+							"tests[\"successful Add operation\"] = data === 8\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/calculate?numbers=2,2,2,2&delimiter=,&calcType=Add",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "numbers",
+							"value": "2,2,2,2"
+						},
+						{
+							"key": "delimiter",
+							"value": ","
+						},
+						{
+							"key": "calcType",
+							"value": "Add"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2_GetMultiply",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "33dd57c0-05a0-4cec-a246-86d469b3143d",
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"successful GET request\"] = responseCode.code === 200\r",
+							"tests[\"successful Multiply operation\"] = data === 16"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/calculate?numbers=2,2,2,2&delimiter=,&calcType=Multiply",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "numbers",
+							"value": "2,2,2,2"
+						},
+						{
+							"key": "delimiter",
+							"value": ","
+						},
+						{
+							"key": "calcType",
+							"value": "Multiply"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3_GetSubtract",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0ada4a00-62f0-4adf-aa32-fd4d25ebc4f8",
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"successful GET request\"] = responseCode.code === 200\r",
+							"tests[\"successful Subtract operation\"] = data === -4"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/calculate?numbers=2,2,2,2&delimiter=,&calcType=Subtract",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "numbers",
+							"value": "2,2,2,2"
+						},
+						{
+							"key": "delimiter",
+							"value": ","
+						},
+						{
+							"key": "calcType",
+							"value": "Subtract"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4_BadRequestDelimiter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46919ffc-7c79-45a4-9220-c909c6524871",
+						"exec": [
+							"tests[\"Bad Request\"] = responseCode.code === 400\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/calculate?numbers=2,2,2,2&delimiter=*&calcType=Add",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "numbers",
+							"value": "2,2,2,2"
+						},
+						{
+							"key": "delimiter",
+							"value": "*"
+						},
+						{
+							"key": "calcType",
+							"value": "Add"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5_BadRequestNumbers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2cc8f91e-6582-470f-aeef-f75100a736ea",
+						"exec": [
+							"tests[\"Bad Request\"] = responseCode.code === 400\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/calculate?numbers=2,2,2,NotANumber&delimiter=*&calcType=Add",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "numbers",
+							"value": "2,2,2,NotANumber"
+						},
+						{
+							"key": "delimiter",
+							"value": "*"
+						},
+						{
+							"key": "calcType",
+							"value": "Add"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6_BadRequestCalcType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8af647ff-6b66-4da6-9127-b1d9e4fc029c",
+						"exec": [
+							"tests[\"Bad Request\"] = responseCode.code === 400"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/calculate?numbers=2,2,2,2&delimiter=*&calcType=Divide",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "numbers",
+							"value": "2,2,2,2"
+						},
+						{
+							"key": "delimiter",
+							"value": "*"
+						},
+						{
+							"key": "calcType",
+							"value": "Divide"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7_GetAddLargeInput",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a2ae537c-6cc5-4c5c-8cc1-cfd4f340a0bd",
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"successful GET request\"] = responseCode.code === 200\r",
+							"tests[\"successful Add operation\"] = data === 100156775\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/calculate?numbers=1234,-23,246,29999,6,9,7,4,3,6,7,24,678,76,45,999,123456,000000,99999999&delimiter=,&calcType=Add",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "numbers",
+							"value": "1234,-23,246,29999,6,9,7,4,3,6,7,24,678,76,45,999,123456,000000,99999999"
+						},
+						{
+							"key": "delimiter",
+							"value": ","
+						},
+						{
+							"key": "calcType",
+							"value": "Add"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8_GetNoInput",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a2ae537c-6cc5-4c5c-8cc1-cfd4f340a0bd",
+						"exec": [
+							"tests[\"successful GET request\"] = responseCode.code === 400\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/calculate",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

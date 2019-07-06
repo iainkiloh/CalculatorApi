@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorApi", "CalculatorApi\CalculatorApi\CalculatorApi.csproj", "{B681CDA9-7123-4BA6-8CE4-7182824EE2E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PostmanTests", "PostmanTests", "{521E7B3D-ACA7-48DF-BB5A-856D62273222}"
+	ProjectSection(SolutionItems) = preProject
+		CalculatorApiCalls.postman_collection.json = CalculatorApiCalls.postman_collection.json
+		CalculatorApiCallsDevelopment.postman_environment.json = CalculatorApiCallsDevelopment.postman_environment.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Containerization", "Containerization", "{89467598-D1DB-4D7D-A011-F6D779D4616E}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		Dockerfile = Dockerfile
+		kubermanfest-dev.yaml = kubermanfest-dev.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B681CDA9-7123-4BA6-8CE4-7182824EE2E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B681CDA9-7123-4BA6-8CE4-7182824EE2E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B681CDA9-7123-4BA6-8CE4-7182824EE2E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B681CDA9-7123-4BA6-8CE4-7182824EE2E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E3F23BD-E3F7-42AE-B5BF-FFD79E601773}
+	EndGlobalSection
+EndGlobal

@@ -8,6 +8,10 @@ using System.Security.Authentication;
 
 namespace CalculatorApi.Filters
 {
+    /// <summary>
+    /// catches any unhandled exceptions and sets the status code for specifc exceptions
+    /// sets 500 internal server error for unexpected problems (and logs them using Nlog)
+    /// </summary>
     public class UnhandledExceptionFilter : ExceptionFilterAttribute
     {
 

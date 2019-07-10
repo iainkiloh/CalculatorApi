@@ -64,6 +64,16 @@ namespace CalculatorApi
             //inject the ICalculator implementation - scoped means new instance on each request
             services.AddScoped<ICalculator, Calculator>();
 
+            //Add service and create Policy with options
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             //load mvc framework
             services.AddMvc();
 
@@ -127,6 +137,7 @@ namespace CalculatorApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider, IApplicationLifetime applicationLifetime)
         {
             app.UseIpRateLimiting();
+            app.UseCors("CorsPolicy");
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(

@@ -5,3 +5,5 @@
 /.vs
 /CalculatorApi/CalculatorApi/bin
 /CalculatorApi/CalculatorApi/obj
+/.vscode/launch.json
+/.vscode/tasks.json

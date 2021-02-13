@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
@@ -76,7 +77,7 @@ namespace CalculatorApi
                     .AllowAnyHeader());
             });
 
-            //load mvc framework
+            //load api controller functionality
             services.AddControllers();
 
             // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
@@ -122,7 +123,7 @@ namespace CalculatorApi
                     //});
 
                     //get string valus for enums in swagger interface
-                    options.DescribeAllEnumsAsStrings();
+                    //options.DescribeAllEnumsAsStrings();
 
                     // integrate xml comments (Not implemented in this api)
                     // options.IncludeXmlComments(XmlCommentsFilePath);
@@ -136,7 +137,7 @@ namespace CalculatorApi
         /// <param name="env">The current hosting environment.</param>
         /// <param name="loggerFactory">The logging factory used for instrumentation.</param>
         /// <param name="provider">The API version descriptor provider used to enumerate defined API versions.</param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider, IApplicationLifetime applicationLifetime)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider, IHostApplicationLifetime applicationLifetime)
         {
             app.UseIpRateLimiting();
             app.UseCors("CorsPolicy");

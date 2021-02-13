@@ -10,7 +10,7 @@ namespace CalculatorApi
     {
         public static void Main(string[] args)
         {
-
+            Console.WriteLine($"Starting App");
             //limit threads for testing load with limited threads available - use with WebSurge (or similar tool)
             //ThreadPool.SetMaxThreads(Environment.ProcessorCount, Environment.ProcessorCount);
 
@@ -22,6 +22,7 @@ namespace CalculatorApi
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exception: {ex.Message}");
                 //NLog: catch setup errors
                 logger.Error(ex, "Unable to start CalcuatorApi");
             }

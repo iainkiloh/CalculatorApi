@@ -3,11 +3,12 @@ using CalculatorApi.Infrastructure.Services;
 using CalculatorApi.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace CalculatorApi
 {
@@ -16,12 +17,11 @@ namespace CalculatorApi
     /// </summary>
     public class Startup
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="env">The current hosting environment.</param>
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
 
             var builder = new ConfigurationBuilder()
@@ -54,6 +54,9 @@ namespace CalculatorApi
 
             //Rate Limiting
             //load general configuration from appsettings.json
+            services.AddMemoryCache();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
             //load ip rules from appsettings.json
             services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
@@ -70,16 +73,15 @@ namespace CalculatorApi
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                    .AllowAnyHeader());
             });
 
             //load mvc framework
-            services.AddMvc();
+            services.AddControllers();
 
             // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
-            // note: the specified format code will format the version as "'v'major[.minor][-status]"
-            services.AddMvcCore().AddVersionedApiExplorer(
+            // note: the specified format code will format the version as "'v'major[.minor][-status]"     
+            services.AddVersionedApiExplorer(
                 options =>
                 {
                     options.GroupNameFormat = "'v'VVV";
@@ -134,11 +136,11 @@ namespace CalculatorApi
         /// <param name="env">The current hosting environment.</param>
         /// <param name="loggerFactory">The logging factory used for instrumentation.</param>
         /// <param name="provider">The API version descriptor provider used to enumerate defined API versions.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider, IApplicationLifetime applicationLifetime)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider, IApplicationLifetime applicationLifetime)
         {
             app.UseIpRateLimiting();
             app.UseCors("CorsPolicy");
-            app.UseMvc();
+            app.UseRouting();
             app.UseSwagger();
             app.UseSwaggerUI(
                 options =>
@@ -150,18 +152,20 @@ namespace CalculatorApi
                     }
 
                 });
+
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 
-        static Info CreateInfoForApiVersion(ApiVersionDescription description)
+        static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
         {
-            var info = new Info()
+            var info = new OpenApiInfo()
             {
                 Title = $"CalculatorApi {description.ApiVersion}",
                 Version = description.ApiVersion.ToString(),
                 Description = "CalculatorApi",
-                Contact = new Contact() { Name = "Iain Kiloh", Email = "iainkiloh@gmail.com" },
-                TermsOfService = "Private",
-                License = new License() { Name = "None", Url = "https://kilohsoftware.com" }
+                Contact = new OpenApiContact() { Name = "Iain Kiloh", Email = "iainkiloh@mail.com" },
+                TermsOfService = new System.Uri("https://kilohsoftware.com"),
+                License = new OpenApiLicense() { Name = "None", Url = new System.Uri("https://kilohsoftware.com") }
             };
 
             if (description.IsDeprecated)
